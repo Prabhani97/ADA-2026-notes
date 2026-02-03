@@ -1,0 +1,98 @@
+---
+title: "Metrices and Arrays"
+author: "Prabhani Athukorala"
+format:
+  html:
+    embed-resources: true
+    code-fold: false
+    number-sections: true
+toc: true
+toc-title: Table of contents
+toc-depth: 4
+toc-location: left
+execute: 
+  eval: false
+  echo: true
+output:
+  html_document:
+  output-file: Matrices, Arrays.html
+---
+
+```{r}
+# Lines 3-45
+install.packages("tidyverse")
+install.packages("data.table")
+library(tidyverse)
+library(data.table)
+f<-"/Users/pha268/Downloads/ANT 388C/ada-datasets-main/random-people.csv"
+data<-read_csv(f, col_names=TRUE)
+m <- matrix(data = c(1, 2, 3, 4), nrow = 2, ncol = 2)
+m
+m <- matrix(1:6, nrow = 2, ncol = 3, byrow = FALSE)
+m
+m <- matrix(1:6, nrow = 2, ncol = 3, byrow = TRUE)
+m
+v1 <- c(1, 2, 3, 4)
+v2 <- c(6, 7, 8, 9)
+m1 <- rbind(v1, v2)  # rows
+m2 <- cbind(v1, v2)  # columns
+m1
+m2
+class(m1)    # what type is it?
+dim(m1)      # rows, columns
+rownames(m1) # row names
+colnames(m2) # column names
+str(m1)      # structure (super useful)
+```
+
+3D Array
+
+```{r}
+# Lines 51-88
+a <- array(data = 1:90, dim = c(5, 6, 3))
+a
+v <- 1:100
+v[1:15]              # first 15
+v[c(2, 4, 6, 8, 10)]  # specific positions
+v <- 101:200
+v[seq(from = 1, to = 100, by = 2)]  # every 2nd element
+m <- matrix(1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+m[4, 5]
+m[4, ]
+m[, 5]
+m[2:6, 2:9]
+```
+
+challenge answers (from text)
+
+```{r}
+# Lines 92-150
+x <- m[, c(2, 3, 6)]
+x
+x <- m[6:8, ]
+x
+x <- m[2:6, 2:9]
+x
+m <- matrix(1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+m[7, 1] <- 564   # change one cell
+m[, 8] <- 2      # entire column becomes 2
+m[2:5, 4:8] <- 1 # a block becomes 1
+m
+m[, 8] <- c("a", "b") #This will convert the whole matrix to character (because matrices can only hold one type).
+s <- c("this", "is", "a", "vector")
+m <- matrix(1:40, nrow = 5, ncol = 8)
+b <- FALSE
+l <- list(s, m, b)
+l
+l[[2]]  # returns the matrix
+l[2:3]
+l[[2]][2, 6]   # row 2, col 6 inside the matrix
+l[[2]][2, ]    # entire row 2
+l[[2]][, 6]    # entire column 6
+names(l) <- c("string", "matrix", "logical")
+l$string
+l$matrix[3, 5]
+```
+
