@@ -1,0 +1,61 @@
+---
+title: "Getting data into R"
+author: "Prabhani Athukorala"
+format:
+  html:
+    embed-resources: true
+    code-fold: false
+    number-sections: true
+toc: true
+toc-title: Table of contents
+toc-depth: 4
+toc-location: left
+execute: 
+  eval: false
+  echo: true
+output:
+  html_document:
+  output-file: Getting data into R.html
+---
+
+```{r}
+# Lines 7-92
+f <- file.choose() #Why important: Prevents path-typing mistakes when you’re new.
+f
+f <- "/Users/pha268/Downloads/ANT 388C/ada-datasets-main/CPDS-1960-2014-reduced.csv"
+getwd()
+d <- read.table(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d)
+class(d)
+d <- read.csv(f, header = TRUE, stringsAsFactors = FALSE)
+f <- "/Users/pha268/Downloads/ANT 388C/ada-datasets-main/CPDS-1960-2014-reduced.txt"
+d <- read.table(f, header = TRUE, sep = "\t", stringsAsFactors = FALSE, fill = TRUE)
+head(d)
+d <- read.delim(f, header = TRUE, stringsAsFactors = FALSE)
+library(tidyverse)
+d <- read_csv(f, col_names = TRUE)
+head(d)
+class(d)
+f<-file.choose()
+d <- read_tsv(f, col_names = TRUE)
+head(d)
+d <- read_delim(f, delim = "\n", col_names = TRUE)
+d <- read_delim(f, delim = "\t", col_names = TRUE)
+library(readxl)
+f <- file.choose()
+d <- read_excel(f, sheet = 1, col_names = TRUE)
+head(d)
+str(d)
+library(tidyverse)
+url <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/CPDS-1960-2014-reduced.csv"
+d <- read_csv(url)
+head(d)
+url <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/CPDS-1960-2014-reduced.txt"
+d <- read_tsv(url)
+head(d)
+library(curl)
+f <- curl("https://raw.githubusercontent.com/difiore/ada-datasets/main/CPDS-1960-2014-reduced.csv")
+d <- read.csv(f, stringsAsFactors = FALSE)
+head(d)
+```
+
