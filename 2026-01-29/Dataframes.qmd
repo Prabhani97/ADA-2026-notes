@@ -1,0 +1,112 @@
+---
+title: "Dataframes"
+author: "Prabhani Athukorala"
+format:
+  html:
+    embed-resources: true
+    code-fold: false
+    number-sections: true
+toc: true
+toc-title: Table of contents
+toc-depth: 4
+toc-location: left
+execute: 
+  eval: false
+  echo: true
+output:
+  html_document:
+  output-file: Dataframes.html
+---
+
+```{r}
+# Lines 1-56
+library(tidyverse)
+library(data.table)
+f<-"/Users/pha268/Downloads/ANT 388C/ada-datasets-main/random-people.csv"
+data<-read_csv(f, col_names=TRUE)
+df <- data.frame(
+  firstName = c("Rick", "Negan", "Dwight", "Maggie", "Michonne"),
+  community = c("Alexandria", "Saviors", "Saviors", "Hiltop", "Alexandria"),
+  sex = c("M", "M", "M", "F", "F"),
+  age = c(42, 40, 33, 28, 31)
+)
+df
+df <- read.csv(f, stringsAsFactors = FALSE)
+head(df)
+str(df)
+glimpse(df)   # from tidyverse, very readable
+df[, 4]
+df$name.last
+df[[4]]
+df[[4]]
+df[["name.last"]]
+df$name.last
+length(df$name.last)
+unique(df$name.last)
+df[4]
+df["name.last"]
+```
+
+Why important:Useful when we want to keep it “table-shaped”, for joining, writing to CSV, selecting multiple columns.
+
+```{r}
+# Lines 61-173
+class(df[4])
+class(df[[4]])
+df$id <- 1:nrow(df)
+head(df)
+df$school <- c("UT","UT","A&M","A&M","UT","Rice","Texas Tech",
+                 "UT","UT","Texas State","A&M","UT","Rice","UT",
+                 "A&M","Texas Tech","A&M","UT","Texas State","A&M")
+str(df$school)
+df[["school"]] <- df$school  # same result, just different syntax
+df
+new_df <- df[df$school == "UT", ]
+new_df
+df$school == "UT"
+new_df <- df[df$school == "UT" & df$gender == "female", ]
+new_df
+new_df <- df[df$school == "UT" | df$gender == "female",
+             c("gender", "name.first", "name.last")]
+new_df
+df[, c("name.last", "name.first", "school")]
+df[, c(1, 4, 3)]
+df[, -c(1, 2, 5:18)]
+df$school_factor <- as.factor(df$school)
+str(df$school_factor)
+df$school_factor
+df$school_char <- as.character(df$school_factor)
+str(df$school_char)
+sqrt(-1)      # NaN
+1/0           # Inf
+0/0           # NaN
+as.numeric("hi")  # NA
+x <- c(1, 2, NA, 4)
+mean(x)            # NA
+mean(x, na.rm=TRUE) # works
+m <- matrix(c(3,0,1, 23,1,2, 33,1,1, 42,0,1, 41,0,2),
+            nrow = 5, ncol = 3, byrow = TRUE)
+m
+d <- as.data.frame(m)
+d
+d[[2]] <- as.logical(d[[2]])
+d
+d[[3]] <- as.factor(d[[3]])
+d
+str(d)
+library(data.table)
+dt <- as.data.table(df)
+dt[school == "UT"]          # filter
+dt[gender == "male", .(name.first, name.last)]  # select cols
+```
+
+Why important:When datasets get big, data.table is much faster and simpler for filtering.
+
+```{r}
+# Lines 179-183
+library(tidyverse)
+t <- as_tibble(df)
+t
+t[, "name.title"]      # always returns a tibble (never surprises you)
+```
+
